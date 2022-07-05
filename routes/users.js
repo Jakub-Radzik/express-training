@@ -1,6 +1,11 @@
 var express = require('express');
-const { route } = require('.');
+const moment = require('moment');
 var router = express.Router();
+
+router.use((req, res, next)=>{
+  console.log(`Time: ${moment(Date.now())}`)
+  next();
+})
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -31,14 +36,38 @@ router.get('/:id/books/:bookId', (req, res, next) => {
   res.send('secret');
 });
 
+
+let c =0;
+const closedHandler = (req, res, next) => {
+  res.send(`${c++}`)
+}
+
 router.get(
   '/handlers',
   (req, res, next) => {
     console.log('first handler');
+    next();
   },
   (req, res, next) => {
     console.log('second handler');
+    res.send("git")
   }
 );
+
+router.get(
+  '/test', [closedHandler]
+);
+
+router.route('/book')
+  .get((req, res) => {
+    res.send('Get a random book')
+  })
+  .post((req, res) => {
+    res.send('Add a book')
+  })
+  .put((req, res) => {
+    res.send('Update the book')
+  })
+
 
 module.exports = router;
