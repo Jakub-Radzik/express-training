@@ -2,10 +2,10 @@ var express = require('express');
 const moment = require('moment');
 var router = express.Router();
 
-router.use((req, res, next)=>{
-  console.log(`Time: ${moment(Date.now())}`)
+router.use((req, res, next) => {
+  console.log(`Time: ${moment(Date.now())}`);
   next();
-})
+});
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -36,11 +36,10 @@ router.get('/:id/books/:bookId', (req, res, next) => {
   res.send('secret');
 });
 
-
-let c =0;
+let c = 0;
 const closedHandler = (req, res, next) => {
-  res.send(`${c++}`)
-}
+  res.send(`${c++}`);
+};
 
 router.get(
   '/handlers',
@@ -50,24 +49,22 @@ router.get(
   },
   (req, res, next) => {
     console.log('second handler');
-    res.send("git")
+    res.send('git');
   }
 );
 
-router.get(
-  '/test', [closedHandler]
-);
+router.get('/test', [closedHandler]);
 
-router.route('/book')
+router
+  .route('/book')
   .get((req, res) => {
-    res.send('Get a random book')
+    res.send('Get a random book');
   })
   .post((req, res) => {
-    res.send('Add a book')
+    res.send('Add a book');
   })
   .put((req, res) => {
-    res.send('Update the book')
-  })
-
+    res.send('Update the book');
+  });
 
 module.exports = router;
